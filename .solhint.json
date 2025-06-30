@@ -1,0 +1,25 @@
+{
+    "extends": [
+        "solhint:recommended"
+    ],
+    "rules": {
+        "max-line-length": [
+            "warn",
+            150
+        ],
+        "no-inline-assembly": "off",
+        "func-visibility": [
+            "error",
+            {
+                "ignoreConstructors": true
+            }
+        ],
+        "gas-custom-errors": "warn",
+        "one-contract-per-file": "off",
+        "func-name-mixedcase": "off",
+        "var-name-mixedcase": "off",
+        "reason-string": "off",
+        "no-unused-vars": "error",
+        "event-name-camelcase": "error"
+    }
+}

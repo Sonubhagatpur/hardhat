@@ -1,0 +1,266 @@
+[
+  {
+    "line": 35,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 40,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 80,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 84,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 105,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 213,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 215,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 230,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 250,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 276,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 285,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 287,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 291,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 296,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 307,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 329,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 350,
+    "column": 13,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 353,
+    "column": 13,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 371,
+    "column": 13,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 374,
+    "column": 13,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 405,
+    "column": 10,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 419,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 428,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 429,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 431,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 434,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 439,
+    "column": 13,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 442,
+    "column": 13,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "line": 463,
+    "column": 9,
+    "severity": "Warning",
+    "message": "GC: Use Custom Errors instead of require statements",
+    "ruleId": "gas-custom-errors",
+    "fix": null,
+    "filePath": "contracts/aman.sol"
+  },
+  {
+    "conclusion": "29 problem/s (29 warning/s)"
+  }
+]

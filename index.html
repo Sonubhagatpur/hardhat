@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiGIF NFT with Installments</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/web3@1.6.1/dist/web3.min.js"></script> -->
+    <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/web3modal@1.9.0/dist/index.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/evm-chains@0.2.0/dist/umd/index.min.js"></script>
+    <script type="text/javascript"
+        src="https://unpkg.com/@walletconnect/web3-provider@1.2.1/dist/umd/index.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/fortmatic@2.0.6/dist/fortmatic.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor:
+                pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>MultiGIF NFT with Installments</h1>
+        <div>
+            <button onclick="connectmetamask()" class="btn">Connect Wallet</button>
+            <h3>Start Installment Plan</h3>
+            <label for="tokenId">Token ID:</label>
+            <input type="number" id="tokenId" placeholder="Enter Token ID">
+            <br><br>
+            <label for="downPayment">Down Payment (ETH):</label>
+            <input type="number" id="downPayment" placeholder="Enter Down Payment">
+            <br><br>
+            <button class="btn" id="startInstallmentBtn">Start Installment Plan</button>
+        </div>
+        <br>
+        <div>
+            <h3>Make Installment Payment</h3>
+
+            <label for="tokenIdPayment">Token ID:</label>
+            <input type="number" id="tokenIdPayment" placeholder="Enter Token ID">
+            <br><br>
+            <label for="paymentAmount">Payment Amount (ETH):</label>
+            <input type="number" id="paymentAmount" placeholder="Enter Payment Amount">
+            <br><br>
+            <button class="btn" id="makePaymentBtn">Make Installment Payment</button>
+        </div>
+        <br>
+        <div>
+            <h3>Settle Early</h3>
+            <label for="tokenIdEarly">Token ID:</label>
+            <input type="number" id="tokenIdEarly" placeholder="Enter Token ID">
+            <br><br>
+            <label for="settleAmount">Amount (ETH):</label>
+            <input type="number" id="settleAmount" placeholder="Enter Amount">
+            <br><br>
+            <button class="btn" id="settleEarlyBtn">Settle Early</button>
+        </div>
+        <br>
+        <div>
+            <h3>Mark Default</h3>
+            <label for="tokenIdDefault">Token ID:</label>
+            <input type="number" id="tokenIdDefault" placeholder="Enter Token ID">
+            <br><br>
+            <label for="buyerAddress">Buyer Address:</label>
+            <input type="text" id="buyerAddress" placeholder="Enter Buyer Address">
+            <br><br>
+            <button class="btn" id="markDefaultBtn">Mark Default</button>
+        </div>
+    </div>
+
+    <script>
+        let web3;
+        let contract;
+        const contractAddress = '0xD530c1AAfe51b035D8a909ed29ef65aa4712F841';
+        const abi = [{ "inputs": [{ "internalType": "address", "name": "_priceFeed", "type": "address" }], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [{ "internalType": "address", "name": "sender", "type": "address" }, { "internalType": "uint256", "name": "balance", "type": "uint256" }, { "internalType": "uint256", "name": "needed", "type": "uint256" }, { "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "ERC1155InsufficientBalance", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "approver", "type": "address" }], "name": "ERC1155InvalidApprover", "type": "error" }, { "inputs": [{ "internalType": "uint256", "name": "idsLength", "type": "uint256" }, { "internalType": "uint256", "name": "valuesLength", "type": "uint256" }], "name": "ERC1155InvalidArrayLength", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "operator", "type": "address" }], "name": "ERC1155InvalidOperator", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "receiver", "type": "address" }], "name": "ERC1155InvalidReceiver", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "sender", "type": "address" }], "name": "ERC1155InvalidSender", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "operator", "type": "address" }, { "internalType": "address", "name": "owner", "type": "address" }], "name": "ERC1155MissingApprovalForAll", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }], "name": "OwnableInvalidOwner", "type": "error" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }], "name": "OwnableUnauthorizedAccount", "type": "error" }, { "inputs": [], "name": "ReentrancyGuardReentrantCall", "type": "error" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "account", "type": "address" }, { "indexed": true, "internalType": "address", "name": "operator", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "approved", "type": "bool" }], "name": "ApprovalForAll", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "buyer", "type": "address" }, { "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "DefaultMarked", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "buyer", "type": "address" }, { "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "EarlySettlementCompleted", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "uint256", "name": "fallbackPrice", "type": "uint256" }], "name": "FallbackPriceUsed", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "buyer", "type": "address" }, { "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "amountPaid", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "remainingInstallments", "type": "uint256" }], "name": "InstallmentPaymentMade", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "buyer", "type": "address" }, { "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "downPayment", "type": "uint256" }], "name": "InstallmentPlanStarted", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "buyer", "type": "address" }, { "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "NFTReclaimed", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }], "name": "OwnershipTransferred", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "operator", "type": "address" }, { "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }, { "indexed": false, "internalType": "uint256[]", "name": "values", "type": "uint256[]" }], "name": "TransferBatch", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "operator", "type": "address" }, { "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "id", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "TransferSingle", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "string", "name": "value", "type": "string" }, { "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "URI", "type": "event" }, { "inputs": [{ "internalType": "string", "name": "gifURI", "type": "string" }, { "internalType": "uint256", "name": "priceInUSD", "type": "uint256" }, { "internalType": "uint256", "name": "downPaymentPercent", "type": "uint256" }, { "internalType": "uint256", "name": "installmentCount", "type": "uint256" }, { "internalType": "uint256", "name": "installmentInterval", "type": "uint256" }, { "internalType": "uint256", "name": "earlyDiscountPercent", "type": "uint256" }, { "internalType": "uint256", "name": "gracePeriod", "type": "uint256" }], "name": "addToken", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }, { "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address[]", "name": "accounts", "type": "address[]" }, { "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }], "name": "balanceOfBatch", "outputs": [{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "priceInUSD", "type": "uint256" }], "name": "getPriceInWei", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }, { "internalType": "address", "name": "operator", "type": "address" }], "name": "isApprovedForAll", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "lateFeePercent", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "makeInstallmentPayment", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [], "name": "manualFallbackPrice", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }, { "internalType": "address", "name": "buyer", "type": "address" }], "name": "markDefault", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "nextTokenId", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }, { "internalType": "uint256", "name": "", "type": "uint256" }], "name": "payments", "outputs": [{ "internalType": "uint256", "name": "totalPaid", "type": "uint256" }, { "internalType": "uint256", "name": "nextDueDate", "type": "uint256" }, { "internalType": "uint256", "name": "remainingInstallments", "type": "uint256" }, { "internalType": "uint256", "name": "lateFeePaid", "type": "uint256" }, { "internalType": "bool", "name": "active", "type": "bool" }, { "internalType": "bool", "name": "defaulted", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }, { "internalType": "address", "name": "buyer", "type": "address" }], "name": "reclaimNFT", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }, { "internalType": "uint256[]", "name": "values", "type": "uint256[]" }, { "internalType": "bytes", "name": "data", "type": "bytes" }], "name": "safeBatchTransferFrom", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "id", "type": "uint256" }, { "internalType": "uint256", "name": "value", "type": "uint256" }, { "internalType": "bytes", "name": "data", "type": "bytes" }], "name": "safeTransferFrom", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "operator", "type": "address" }, { "internalType": "bool", "name": "approved", "type": "bool" }], "name": "setApprovalForAll", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "settleEarly", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "startInstallmentPlan", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [{ "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }], "name": "supportsInterface", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "name": "tokenInfo", "outputs": [{ "internalType": "string", "name": "gifURI", "type": "string" }, { "internalType": "uint256", "name": "priceInUSD", "type": "uint256" }, { "internalType": "uint256", "name": "downPaymentPercent", "type": "uint256" }, { "internalType": "uint256", "name": "installmentCount", "type": "uint256" }, { "internalType": "uint256", "name": "installmentInterval", "type": "uint256" }, { "internalType": "uint256", "name": "earlyDiscountPercent", "type": "uint256" }, { "internalType": "uint256", "name": "gracePeriod", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }], "name": "transferOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "name": "uri", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }];
+        // Replace with your Infura Project ID 
+        // const infuraProjectId = 'YOUR_INFURA_PROJECT_ID';
+        // const infuraUrl = `https://polygon-mainnet.infura.io/v3/${infuraProjectId}`;
+        const infuraUrl = `https://rpc-amoy.polygon.technology`;
+
+        async function connectmetamask() {
+            try {
+                if (typeof window.ethereum !== 'undefined') {
+                    // If MetaMask is available, use it
+                    web3 = new Web3(window.ethereum);
+                    window.ethereum.enable().then(function () {
+                        contract = new web3.eth.Contract(abi, contractAddress);
+                    }).catch(function (error) {
+                        alert('Please allow access to your Ethereum account.');
+                    });
+                } else {
+                    // If MetaMask is not available, use Infura as provider
+                    web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+                    contract = new web3.eth.Contract(abi, contractAddress);
+                    console.log('Using Infura as Web3 provider');
+                }
+            } catch (e) {
+                console.log(e)
+                return;
+            }
+        }
+
+        window.addEventListener('load', function () {
+            // if (typeof window.ethereum !== 'undefined') {
+            //     // If MetaMask is available, use it
+            //     web3 = new Web3(window.ethereum);
+            //     window.ethereum.enable().then(function () {
+            //         contract = new web3.eth.Contract(abi, contractAddress);
+            //     }).catch(function (error) {
+            //         alert('Please allow access to your Ethereum account.');
+            //     });
+            // } else {
+            //     // If MetaMask is not available, use Infura as provider
+            //     web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+            //     contract = new web3.eth.Contract(abi, contractAddress);
+            //     console.log('Using Infura as Web3 provider');
+            // }
+        });
+
+        document.getElementById('startInstallmentBtn').addEventListener('click', async () => {
+            const tokenId = document.getElementById('tokenId').value;
+            const downPayment =
+                web3.utils.toWei(document.getElementById('downPayment').value, 'ether');
+            const accounts = await web3.eth.getAccounts();
+            contract.methods.startInstallmentPlan(tokenId).send({
+                from: accounts[0], value:
+                    downPayment
+            })
+                .on('transactionHash', function (hash) {
+                    console.log('Transaction hash: ' + hash);
+                })
+                .on('receipt', function (receipt) {
+                    console.log('Transaction receipt: ' + receipt);
+                })
+                .on('error', function (error) {
+                    alert('Error starting installment plan: ' + error.message);
+                });
+        });
+
+        document.getElementById('makePaymentBtn').addEventListener('click', async () => {
+            const tokenId = document.getElementById('tokenIdPayment').value;
+            const paymentAmount =
+                web3.utils.toWei(document.getElementById('paymentAmount').value, 'ether');
+            const accounts = await web3.eth.getAccounts();
+            contract.methods.makeInstallmentPayment(tokenId).send({
+                from: accounts[0], value:
+                    paymentAmount
+            })
+                .on('transactionHash', function (hash) {
+                    console.log('Transaction hash: ' + hash);
+                })
+                .on('receipt', function (receipt) {
+                    console.log('Transaction receipt: ' + receipt);
+                })
+                .on('error', function (error) {
+                    alert('Error making installment payment: ' + error.message);
+                });
+        });
+        document.getElementById('settleEarlyBtn').addEventListener('click', async () => {
+            const tokenId = document.getElementById('tokenIdEarly').value;
+            const settleAmount = web3.utils.toWei(document.getElementById('settleAmount').value,
+                'ether');
+            const accounts = await web3.eth.getAccounts();
+            contract.methods.settleEarly(tokenId).send({ from: accounts[0], value: settleAmount })
+                .on('transactionHash', function (hash) {
+                    console.log('Transaction hash: ' + hash);
+                })
+                .on('receipt', function (receipt) {
+                    console.log('Transaction receipt: ' + receipt);
+                })
+                .on('error', function (error) {
+                    alert('Error settling early: ' + error.message);
+                });
+        });
+        document.getElementById('markDefaultBtn').addEventListener('click', async () => {
+            const tokenId = document.getElementById('tokenIdDefault').value;
+            const buyerAddress = document.getElementById('buyerAddress').value;
+            const accounts = await web3.eth.getAccounts();
+            contract.methods.markDefault(tokenId, buyerAddress).send({ from: accounts[0] })
+                .on('transactionHash', function (hash) {
+                    console.log('Transaction hash: ' + hash);
+                })
+                .on('receipt', function (receipt) {
+                    console.log('Transaction receipt: ' + receipt);
+                })
+                .on('error', function (error) {
+                    alert('Error marking default: ' + error.message);
+                });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,4 +1,5 @@
 const hre = require("hardhat");
+const { ethers, upgrades } = require("hardhat");
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -31,10 +32,28 @@ async function main() {
     });
   }
 
+  // const tiers = [
+  //   [0, ethers.parseUnits("500"), 10, 24 * 30 * 24 * 60 * 60],
+  //   [ethers.parseUnits("501"), ethers.parseUnits("1100"), 20, 24 * 30 * 24 * 60 * 60],
+  //   [ethers.parseUnits("1101"), ethers.parseUnits("1800"), 30, 24 * 30 * 24 * 60 * 60],
+  //   [ethers.parseUnits("1801"), ethers.parseUnits("2600"), 40, 24 * 30 * 24 * 60 * 60],
+  //   [ethers.parseUnits("2601"), ethers.constants.MaxUint256, 50, 24 * 30 * 24 * 60 * 60]
+  // ];
+  const FIVE_DAYS = 2 * 60 * 60;   // 432 000
+
+
+  const tiers = [
+    [0, ethers.parseUnits("500"), 10, FIVE_DAYS],
+    [ethers.parseUnits("501"), ethers.parseUnits("1100"), 20, FIVE_DAYS],
+    [ethers.parseUnits("1101"), ethers.parseUnits("1800"), 30, FIVE_DAYS],
+    [ethers.parseUnits("1801"), ethers.parseUnits("2600"), 40, FIVE_DAYS],
+    [ethers.parseUnits("2601"), ethers.MaxUint256, 50, FIVE_DAYS]
+  ];
+
   const tokens = [
     "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd",
-    "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd",
-    "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd"
+    "0x64544969ed7EBf5f083679233325356EbE738930",
+    "0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee"
   ];
 
   const args = [
@@ -42,18 +61,24 @@ async function main() {
     "0x96c888f612505DE4F9F5F35f54B218da68187E4D", // CryptoAMMToken address
     tokens, // tokens address
     levels, // Designated Levels
-    stages // Stages of the AMM
+    stages, // Stages of the AMM
+    tiers
   ];
+  const CryptoAMM = await ethers.getContractFactory("contracts/CryptoAMM.sol:CryptoAMM");
+  console.log("Deploying CryptoAMM...");
+  const cryptoAMM = await upgrades.deployProxy(
+    CryptoAMM,
+    args,
+    { initializer: "initialize" }
+  );
 
-  console.log(args, "args");
-
-  const lock = await hre.ethers.deployContract("contracts/CryptoAMM.sol:CryptoAMM", args);
-  await lock.waitForDeployment();
-  console.log("Contract address Brain=", lock.target);
-  const contractAddress = lock.target;
+  // const lock = await hre.ethers.deployContract("contracts/CryptoAMM.sol:CryptoAMM", args);
+  await cryptoAMM.waitForDeployment();
+  // console.log("Contract address Brain=", lock.target);
+  const contractAddress = cryptoAMM.target;
   await hre.run("verify:verify", {
     address: contractAddress,
-    constructorArguments: args,
+    // constructorArguments: args,
     contract: "contracts/CryptoAMM.sol:CryptoAMM",
   });
 }

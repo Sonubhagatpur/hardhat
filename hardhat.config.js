@@ -1,5 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomicfoundation/hardhat-verify");
+require('@openzeppelin/hardhat-upgrades')
 require('dotenv').config();
 
 const ALCHEMY_API_KEY = "EjDmR5n4GOP1VwRBn5dcDl7zOAe1g_hd";

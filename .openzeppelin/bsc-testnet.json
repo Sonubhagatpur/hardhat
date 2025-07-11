@@ -1,0 +1,1083 @@
+{
+  "manifestVersion": "3.2",
+  "proxies": [
+    {
+      "address": "0xfFb3766ce3A7743a54B32b9a5f890f04e7135dBE",
+      "txHash": "0x821e7a17c69868fb3f634236493f6e6e67e0db14e8619f9c49e5c132500a72ba",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x6FE4AA3c7fF334bf08A81E4bb3A1D81179c8f92C",
+      "txHash": "0x038a8514aac042407bd95e91d581acaa8a641d15f1cb1b6cad7e6da383415006",
+      "kind": "uups"
+    },
+    {
+      "address": "0x82E9101B5a0E9E8962a2975996094B129b14EA54",
+      "txHash": "0x17be972391abd542f402c86fdd98916eab0d904c91d6f2cec4547eeea74bf408",
+      "kind": "uups"
+    },
+    {
+      "address": "0x87512F4DaB559fEB28E698557EdCAA45E1fb161d",
+      "txHash": "0x114449ae542ce3d11c2aebfa75731abc52d4a206afbcfc5f6e9e3c95ff2e9517",
+      "kind": "uups"
+    }
+  ],
+  "impls": {
+    "519053b73401d73d74114fb4f26044e4631a083d9d68e985b7aed15112196174": {
+      "address": "0xEAC7322C1981CB84940447714A88b29FD0B61B94",
+      "txHash": "0xafb7e65958ce38965ad0d22d73db44bd587e6951e6a15ce019e0eafdf66d538e",
+      "layout": {
+        "solcVersion": "0.8.24",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "contracts/access/OwnableUpgradeable.sol:8"
+          },
+          {
+            "label": "isOperatorMap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "OperatorAccessControlUpgradeable",
+            "src": "contracts/access/OperatorAccessControlUpgradeable.sol:7"
+          },
+          {
+            "label": "operatorList",
+            "offset": 0,
+            "slot": "53",
+            "type": "t_array(t_address)dyn_storage",
+            "contract": "OperatorAccessControlUpgradeable",
+            "src": "contracts/access/OperatorAccessControlUpgradeable.sol:8"
+          },
+          {
+            "label": "whitelistedUsers",
+            "offset": 0,
+            "slot": "54",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "UserAccessControlUpgradeable",
+            "src": "contracts/access/UserAccessControlUpgradeable.sol:7"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "55",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "56",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol:116"
+          },
+          {
+            "label": "_status",
+            "offset": 0,
+            "slot": "105",
+            "type": "t_uint256",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:38"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "106",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:80"
+          },
+          {
+            "label": "bnbUsdPriceFeed",
+            "offset": 0,
+            "slot": "155",
+            "type": "t_contract(AggregatorV3Interface)3720",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:14"
+          },
+          {
+            "label": "cryptoAMMToken",
+            "offset": 0,
+            "slot": "156",
+            "type": "t_address",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:15"
+          },
+          {
+            "label": "isClaimEnabled",
+            "offset": 20,
+            "slot": "156",
+            "type": "t_bool",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:16"
+          },
+          {
+            "label": "claimEnabledTime",
+            "offset": 0,
+            "slot": "157",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:17"
+          },
+          {
+            "label": "claimDisabledTime",
+            "offset": 0,
+            "slot": "158",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:18"
+          },
+          {
+            "label": "minContributionUsd",
+            "offset": 0,
+            "slot": "159",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:19"
+          },
+          {
+            "label": "maxContributionUsd",
+            "offset": 0,
+            "slot": "160",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:20"
+          },
+          {
+            "label": "vestingInterval",
+            "offset": 0,
+            "slot": "161",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:21"
+          },
+          {
+            "label": "welcomeRewardUsd",
+            "offset": 0,
+            "slot": "162",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:22"
+          },
+          {
+            "label": "welcomeRewardForReferral",
+            "offset": 0,
+            "slot": "163",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:23"
+          },
+          {
+            "label": "currentStage",
+            "offset": 0,
+            "slot": "164",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:24"
+          },
+          {
+            "label": "totalTokensSold",
+            "offset": 0,
+            "slot": "165",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:25"
+          },
+          {
+            "label": "totalBonusDistributed",
+            "offset": 0,
+            "slot": "166",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:26"
+          },
+          {
+            "label": "totalWelcomeBonus",
+            "offset": 0,
+            "slot": "167",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:27"
+          },
+          {
+            "label": "totalReferralBonus",
+            "offset": 0,
+            "slot": "168",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:28"
+          },
+          {
+            "label": "totalReferralUsdPaid",
+            "offset": 0,
+            "slot": "169",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:29"
+          },
+          {
+            "label": "totalReferralBNBPaid",
+            "offset": 0,
+            "slot": "170",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:30"
+          },
+          {
+            "label": "totalVestedClaimed",
+            "offset": 0,
+            "slot": "171",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:31"
+          },
+          {
+            "label": "totalUsdContributed",
+            "offset": 0,
+            "slot": "172",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:32"
+          },
+          {
+            "label": "totalLockedTokens",
+            "offset": 0,
+            "slot": "173",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:33"
+          },
+          {
+            "label": "users",
+            "offset": 0,
+            "slot": "174",
+            "type": "t_mapping(t_address,t_struct(User)877_storage)",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:74"
+          },
+          {
+            "label": "isAcceptedToken",
+            "offset": 0,
+            "slot": "175",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:75"
+          },
+          {
+            "label": "acceptedTokenList",
+            "offset": 0,
+            "slot": "176",
+            "type": "t_array(t_address)dyn_storage",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:77"
+          },
+          {
+            "label": "stages",
+            "offset": 0,
+            "slot": "177",
+            "type": "t_array(t_struct(Stage)843_storage)dyn_storage",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:78"
+          },
+          {
+            "label": "vestingTiers",
+            "offset": 0,
+            "slot": "178",
+            "type": "t_array(t_struct(VestingTier)852_storage)dyn_storage",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:79"
+          },
+          {
+            "label": "designatedLevels",
+            "offset": 0,
+            "slot": "179",
+            "type": "t_array(t_struct(DesignatedLevel)834_storage)dyn_storage",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:80"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(DesignatedLevel)834_storage)dyn_storage": {
+            "label": "struct CryptoAMM.DesignatedLevel[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(Stage)843_storage)dyn_storage": {
+            "label": "struct CryptoAMM.Stage[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(VestingTier)852_storage)dyn_storage": {
+            "label": "struct CryptoAMM.VestingTier[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_contract(AggregatorV3Interface)3720": {
+            "label": "contract AggregatorV3Interface",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(User)877_storage)": {
+            "label": "mapping(address => struct CryptoAMM.User)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(DesignatedLevel)834_storage": {
+            "label": "struct CryptoAMM.DesignatedLevel",
+            "members": [
+              {
+                "label": "rewardPercent",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "minSales",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Stage)843_storage": {
+            "label": "struct CryptoAMM.Stage",
+            "members": [
+              {
+                "label": "pricePerToken",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenCap",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "sold",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "bonusPercent",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_struct(User)877_storage": {
+            "label": "struct CryptoAMM.User",
+            "members": [
+              {
+                "label": "isRegistered",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "kycVerified",
+                "type": "t_bool",
+                "offset": 1,
+                "slot": "0"
+              },
+              {
+                "label": "kycTimestamp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "referrer",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "totalUsdContributed",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "totalTokensPurchased",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "bonusBalance",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "locked",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "totalClaimedVested",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "7"
+              },
+              {
+                "label": "tier",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "8"
+              },
+              {
+                "label": "tgeClaimed",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "9"
+              },
+              {
+                "label": "lastClaimedTimestamp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "10"
+              }
+            ],
+            "numberOfBytes": "352"
+          },
+          "t_struct(VestingTier)852_storage": {
+            "label": "struct CryptoAMM.VestingTier",
+            "members": [
+              {
+                "label": "minAmountUsd",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "maxAmountUsd",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "tgeUnlockPercent",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "vestingDuration",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "19bb43462ae46168893aa702e0555d3c48a3f21181fefc539e38cc07827d07ab": {
+      "address": "0xdF6b53E15fbD4fe19BBcBE6d97ab802afCd925C1",
+      "txHash": "0xe29b9598d37b77756000a99d583bb88a7a3ac5aa29196aef99c450db3152ed33",
+      "layout": {
+        "solcVersion": "0.8.24",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "contracts/access/OwnableUpgradeable.sol:8"
+          },
+          {
+            "label": "isOperatorMap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "OperatorAccessControlUpgradeable",
+            "src": "contracts/access/OperatorAccessControlUpgradeable.sol:7"
+          },
+          {
+            "label": "operatorList",
+            "offset": 0,
+            "slot": "53",
+            "type": "t_array(t_address)dyn_storage",
+            "contract": "OperatorAccessControlUpgradeable",
+            "src": "contracts/access/OperatorAccessControlUpgradeable.sol:8"
+          },
+          {
+            "label": "whitelistedUsers",
+            "offset": 0,
+            "slot": "54",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "UserAccessControlUpgradeable",
+            "src": "contracts/access/UserAccessControlUpgradeable.sol:7"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "55",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "56",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol:116"
+          },
+          {
+            "label": "_status",
+            "offset": 0,
+            "slot": "105",
+            "type": "t_uint256",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:38"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "106",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:80"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "155",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC1967UpgradeUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol:211"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "205",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "UUPSUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol:107"
+          },
+          {
+            "label": "bnbUsdPriceFeed",
+            "offset": 0,
+            "slot": "255",
+            "type": "t_contract(AggregatorV3Interface)4348",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:21"
+          },
+          {
+            "label": "cryptoAMMToken",
+            "offset": 0,
+            "slot": "256",
+            "type": "t_address",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:22"
+          },
+          {
+            "label": "isClaimEnabled",
+            "offset": 20,
+            "slot": "256",
+            "type": "t_bool",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:23"
+          },
+          {
+            "label": "claimEnabledTime",
+            "offset": 0,
+            "slot": "257",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:24"
+          },
+          {
+            "label": "claimDisabledTime",
+            "offset": 0,
+            "slot": "258",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:25"
+          },
+          {
+            "label": "minContributionUsd",
+            "offset": 0,
+            "slot": "259",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:26"
+          },
+          {
+            "label": "maxContributionUsd",
+            "offset": 0,
+            "slot": "260",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:27"
+          },
+          {
+            "label": "vestingInterval",
+            "offset": 0,
+            "slot": "261",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:28"
+          },
+          {
+            "label": "welcomeRewardUsd",
+            "offset": 0,
+            "slot": "262",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:29"
+          },
+          {
+            "label": "welcomeRewardForReferral",
+            "offset": 0,
+            "slot": "263",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:30"
+          },
+          {
+            "label": "currentStage",
+            "offset": 0,
+            "slot": "264",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:31"
+          },
+          {
+            "label": "totalTokensSold",
+            "offset": 0,
+            "slot": "265",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:32"
+          },
+          {
+            "label": "totalBonusDistributed",
+            "offset": 0,
+            "slot": "266",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:33"
+          },
+          {
+            "label": "totalWelcomeBonus",
+            "offset": 0,
+            "slot": "267",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:34"
+          },
+          {
+            "label": "totalReferralBonus",
+            "offset": 0,
+            "slot": "268",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:35"
+          },
+          {
+            "label": "totalReferralUsdPaid",
+            "offset": 0,
+            "slot": "269",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:36"
+          },
+          {
+            "label": "totalReferralBNBPaid",
+            "offset": 0,
+            "slot": "270",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:37"
+          },
+          {
+            "label": "totalVestedClaimed",
+            "offset": 0,
+            "slot": "271",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:38"
+          },
+          {
+            "label": "totalUsdContributed",
+            "offset": 0,
+            "slot": "272",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:39"
+          },
+          {
+            "label": "totalLockedTokens",
+            "offset": 0,
+            "slot": "273",
+            "type": "t_uint256",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:40"
+          },
+          {
+            "label": "users",
+            "offset": 0,
+            "slot": "274",
+            "type": "t_mapping(t_address,t_struct(User)1467_storage)",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:82"
+          },
+          {
+            "label": "isAcceptedToken",
+            "offset": 0,
+            "slot": "275",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:83"
+          },
+          {
+            "label": "acceptedTokenList",
+            "offset": 0,
+            "slot": "276",
+            "type": "t_array(t_address)dyn_storage",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:85"
+          },
+          {
+            "label": "stages",
+            "offset": 0,
+            "slot": "277",
+            "type": "t_array(t_struct(Stage)1431_storage)dyn_storage",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:86"
+          },
+          {
+            "label": "vestingTiers",
+            "offset": 0,
+            "slot": "278",
+            "type": "t_array(t_struct(VestingTier)1440_storage)dyn_storage",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:87"
+          },
+          {
+            "label": "designatedLevels",
+            "offset": 0,
+            "slot": "279",
+            "type": "t_array(t_struct(DesignatedLevel)1422_storage)dyn_storage",
+            "contract": "CryptoAMM",
+            "src": "contracts/CryptoAMM.sol:88"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(DesignatedLevel)1422_storage)dyn_storage": {
+            "label": "struct CryptoAMM.DesignatedLevel[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(Stage)1431_storage)dyn_storage": {
+            "label": "struct CryptoAMM.Stage[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(VestingTier)1440_storage)dyn_storage": {
+            "label": "struct CryptoAMM.VestingTier[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_contract(AggregatorV3Interface)4348": {
+            "label": "contract AggregatorV3Interface",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(User)1467_storage)": {
+            "label": "mapping(address => struct CryptoAMM.User)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(DesignatedLevel)1422_storage": {
+            "label": "struct CryptoAMM.DesignatedLevel",
+            "members": [
+              {
+                "label": "rewardPercent",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "minSales",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Stage)1431_storage": {
+            "label": "struct CryptoAMM.Stage",
+            "members": [
+              {
+                "label": "pricePerToken",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenCap",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "sold",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "bonusPercent",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_struct(User)1467_storage": {
+            "label": "struct CryptoAMM.User",
+            "members": [
+              {
+                "label": "isRegistered",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "kycVerified",
+                "type": "t_bool",
+                "offset": 1,
+                "slot": "0"
+              },
+              {
+                "label": "kycTimestamp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "referrer",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "totalUsdContributed",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "totalTokensPurchased",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "bonusBalance",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "locked",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "totalClaimedVested",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "7"
+              },
+              {
+                "label": "tier",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "8"
+              },
+              {
+                "label": "tgeClaimed",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "9"
+              },
+              {
+                "label": "lastClaimedTimestamp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "10"
+              },
+              {
+                "label": "designationLevel",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "11"
+              }
+            ],
+            "numberOfBytes": "384"
+          },
+          "t_struct(VestingTier)1440_storage": {
+            "label": "struct CryptoAMM.VestingTier",
+            "members": [
+              {
+                "label": "minAmountUsd",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "maxAmountUsd",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "tgeUnlockPercent",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "vestingDuration",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
+      }
+    }
+  }
+}

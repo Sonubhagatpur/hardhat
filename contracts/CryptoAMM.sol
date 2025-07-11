@@ -1,202 +1,31 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+import "./access/UserAccessControlUpgradeable.sol";
+import "./utils/AggregatorV3Interface.sol";
+
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
-abstract contract Ownable is Context {
-    address private _owner;
-
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-
-    /**
-     * @dev Initializes the contract setting the deployer as the initial owner.
-     */
-    constructor() {
-        _transferOwnership(_msgSender());
-    }
-
-    /**
-     * @dev Throws if called by any account other than the owner.
-     */
-    modifier onlyOwner() {
-        _checkOwner();
-        _;
-    }
-
-    /**
-     * @dev Returns the address of the current owner.
-     */
-    function owner() public view virtual returns (address) {
-        return _owner;
-    }
-
-    /**
-     * @dev Throws if the sender is not the owner.
-     */
-    function _checkOwner() internal view virtual {
-        require(owner() == _msgSender(), "Ownable: caller is not the owner");
-    }
-
-    /**
-     * @dev Transfers ownership of the contract to a new account (`newOwner`).
-     * Can only be called by the current owner.
-     */
-    function transferOwnership(address newOwner) public virtual onlyOwner {
-        require(newOwner != address(0), "Ownable: new owner is the zero address");
-        _transferOwnership(newOwner);
-    }
-
-    /**
-     * @dev Transfers ownership of the contract to a new account (`newOwner`).
-     * Internal function without access restriction.
-     */
-    function _transferOwnership(address newOwner) internal virtual {
-        address oldOwner = _owner;
-        _owner = newOwner;
-        emit OwnershipTransferred(oldOwner, newOwner);
-    }
-}
-
-abstract contract OperatorAccessControl is Ownable {
-    mapping(address => bool) private isOperatorMap;
-    address[] private operatorList;
-
-    event OperatorAdded(address indexed operator);
-    event OperatorRemoved(address indexed operator);
-
-    modifier onlyOperator() {
-        require(isOperatorMap[msg.sender], "Caller is not an operator");
-        _;
-    }
-
-    modifier onlyAdminOrOperator() {
-        require(msg.sender == owner() || isOperatorMap[msg.sender], "Not admin or operator");
-        _;
-    }
-
-    function addOperator(address operator) external onlyOwner {
-        _addOperator(operator);
-    }
-
-    function _addOperator(address operator) internal {
-        require(operator != address(0), "Invalid address");
-        require(!isOperatorMap[operator], "Already an operator");
-
-        isOperatorMap[operator] = true;
-        operatorList.push(operator);
-
-        emit OperatorAdded(operator);
-    }
-
-    function removeOperator(address operator) external onlyOwner {
-        require(isOperatorMap[operator], "Not an operator");
-
-        isOperatorMap[operator] = false;
-
-        // Remove from array
-        for (uint256 i = 0; i < operatorList.length; i++) {
-            if (operatorList[i] == operator) {
-                operatorList[i] = operatorList[operatorList.length - 1];
-                operatorList.pop();
-                break;
-            }
-        }
-
-        emit OperatorRemoved(operator);
-    }
-
-    function isOperator(address account) public view returns (bool) {
-        return isOperatorMap[account];
-    }
-
-    function getOperators() external view returns (address[] memory) {
-        return operatorList;
-    }
-}
-
-/**
- * @title UserAccessControl
- * @dev Manages a whitelist of users allowed to access restricted features.
- */
-contract UserAccessControl is OperatorAccessControl {
-    mapping(address => bool) private whitelistedUsers;
-
-    // Events
-    event UserWhitelisted(address indexed user);
-    event UserRemovedFromWhitelist(address indexed user);
-
-    // Errors
-    error NotWhitelistedUser();
-    error AlreadyWhitelistedUser();
-    error ZeroAddressNotAllowed();
-
-    // Modifier to restrict access
-    modifier onlyWhitelistedUser() {
-        if (!whitelistedUsers[msg.sender]) revert NotWhitelistedUser();
-        _;
-    }
-
-    // =======================
-    // === PUBLIC FUNCTIONS ==
-    // =======================
-
-    function whitelistUser(address user) external onlyAdminOrOperator {
-        _whitelistUser(user);
-    }
-
-    function removeWhitelistedUser(address user) external onlyAdminOrOperator {
-        _removeWhitelistedUser(user);
-    }
-
-    function whitelistMultipleUsers(address[] calldata users) external onlyAdminOrOperator {
-        for (uint256 i = 0; i < users.length; i++) {
-            _whitelistUser(users[i]);
-        }
-    }
-
-    function removeMultipleWhitelistedUsers(address[] calldata users) external onlyAdminOrOperator {
-        for (uint256 i = 0; i < users.length; i++) {
-            _removeWhitelistedUser(users[i]);
-        }
-    }
-
-    function isUserWhitelisted(address user) public view returns (bool) {
-        return _isWhitelisted(user);
-    }
-
-    // ========================
-    // === INTERNAL FUNCTIONS =
-    // ========================
-
-    function _whitelistUser(address user) internal {
-        if (user == address(0)) revert ZeroAddressNotAllowed();
-        if (whitelistedUsers[user]) revert AlreadyWhitelistedUser();
-        whitelistedUsers[user] = true;
-        emit UserWhitelisted(user);
-    }
-
-    function _removeWhitelistedUser(address user) internal {
-        if (!whitelistedUsers[user]) revert NotWhitelistedUser();
-        whitelistedUsers[user] = false;
-        emit UserRemovedFromWhitelist(user);
-    }
-
-    function _isWhitelisted(address user) internal view returns (bool) {
-        return whitelistedUsers[user];
-    }
-}
-
-contract CryptoAMM is UserAccessControl, Pausable, ReentrancyGuard {
+contract CryptoAMM is 
+    Initializable, 
+    UserAccessControlUpgradeable, 
+    PausableUpgradeable, 
+    ReentrancyGuardUpgradeable, 
+    UUPSUpgradeable 
+    {
     // Global Totals
     AggregatorV3Interface public bnbUsdPriceFeed;
     address public cryptoAMMToken;
     bool public isClaimEnabled;
-    uint256 public minContributionUsd = 1 ether;
-    uint256 public maxContributionUsd = 5000 ether;
-    uint256 public vestingInterval = 5 minutes;
+    uint256 public claimEnabledTime;
+    uint256 public claimDisabledTime;
+    uint256 public minContributionUsd;
+    uint256 public maxContributionUsd;
+    uint256 public vestingInterval;
     uint256 public welcomeRewardUsd;
     uint256 public welcomeRewardForReferral;
     uint256 public currentStage;
@@ -208,6 +37,7 @@ contract CryptoAMM is UserAccessControl, Pausable, ReentrancyGuard {
     uint256 internal totalReferralBNBPaid;
     uint256 internal totalVestedClaimed;
     uint256 internal totalUsdContributed;
+    uint256 public totalLockedTokens;
 
     struct DesignatedLevel {
         uint256 rewardPercent;
@@ -244,7 +74,8 @@ struct User {
     uint256 tier;                       
     bool tgeClaimed;                   
 
-    uint256 lastClaimedTimestamp;      
+    uint256 lastClaimedTimestamp;  
+    uint256 designationLevel;    
 }
 
     // mapping(uint256 => Stage) public stages;
@@ -262,16 +93,30 @@ struct User {
     event WelcomeBonusGranted(address indexed user, uint256 tokenAmount);
     event AssetTransferred(address indexed to, uint256 amount, address indexed tokenAddress);
     event ReferralBonusGranted(address indexed referrer, address indexed referredUser, uint256 tokenAmount);
-    event ReferralRewardDistributed(address indexed referrer, uint256 level, uint256 rewardAmount, address rewardToken);
+    event ReferralRewardDistributed(address indexed referrer, uint256 level, uint256 rewardAmount, address rewardToken, uint256 designation);
     event ReferralRewardCompleted(address indexed distributor, uint256 totalDistributed, address rewardToken);
     event DesignatedLevelUpdated(uint256 level, uint256 newPercent, uint256 newMinSales);
+    event VestingIntervalUpdated(uint256 indexed newInterval, uint256 indexed timestamp);
+    event VestingTiersInitialized(uint256 count, uint256 timestamp);
+    event ClaimToggle(bool indexed enabled, uint256 indexed timestamp);
     event Registered(address user, address referrer);
     event KYCVerified(address user);
     event Purchased(address user, uint256 tokens);
     event ClaimedVested(address indexed user, uint256 amount);
     event BonusGiven(address indexed user, uint256 bonusAmount);
 
-    constructor(address _operatorAddress, address _cryptoAMMToken, address[] memory tokens, DesignatedLevel[] memory levels, Stage[] memory initialStages) {
+    //constructor(address _operatorAddress, address _cryptoAMMToken, address[] memory tokens, DesignatedLevel[] memory levels, Stage[] memory initialStages, VestingTier[] memory tiers) {
+    function initialize(
+        address _operatorAddress,
+        address _cryptoAMMToken,
+        address[] memory tokens,
+        DesignatedLevel[] memory levels,
+        Stage[] memory initialStages,
+        VestingTier[] memory tiers
+    ) public initializer {
+        __UserAccessControl_init();
+        __Pausable_init();
+        __ReentrancyGuard_init();
         bnbUsdPriceFeed = AggregatorV3Interface(
             0x2514895c72f50D8bd4B4F9b1110F0D6bD2c97526
         ); 
@@ -286,7 +131,7 @@ struct User {
             stages.push(initialStages[i]);
         }
 
-        initializeVestingTiers();
+        _initializeVestingTiers(tiers);
         welcomeRewardForReferral = 1 ether;
         welcomeRewardUsd = 1 ether;
         
@@ -298,6 +143,10 @@ struct User {
         users[_operatorAddress].kycVerified = true;
         users[_operatorAddress].isRegistered = true;
         _whitelistUser(_operatorAddress);
+
+        minContributionUsd = 1 ether;
+        maxContributionUsd = 3000 ether;
+        vestingInterval = 5 minutes;
 
     }
 
@@ -358,6 +207,8 @@ struct User {
         // Subtract already claimed
         uint256 claimable = getClaimableAmount(msg.sender);
         require(claimable > 0, "Nothing to claim");
+        user.locked        -= claimable;
+        totalLockedTokens  -= claimable;
         if(!user.tgeClaimed) user.tgeClaimed = true;
 
         user.totalClaimedVested += claimable;
@@ -370,8 +221,6 @@ struct User {
         emit ClaimedVested(msg.sender, claimable);
     }
 
-
-
     function _buy(address tokenAddress, address userAddress, uint256 usdtAmount) 
         internal 
         virtual 
@@ -382,7 +231,7 @@ struct User {
     {
         require(tokenAddress == address(0) || isAcceptedToken[tokenAddress], "Token must be accepted");
 
-        (uint256 tokenAmount, uint256 lastUsedStage,uint256 bonusAmount, uint256[] memory tokensUsed )= _usdToTokenAmount(usdtAmount);
+        (uint256 tokenAmount, uint256 lastUsedStage, uint256 bonusAmount, uint256[] memory tokensUsed )= _usdToTokenAmount(usdtAmount);
         require(tokenAmount > 0, "No tokens available for purchase");
 
         User storage user = users[userAddress];
@@ -396,21 +245,26 @@ struct User {
         totalUsdContributed += usdtAmount;
         totalTokensSold += tokenAmount;
 
-        uint256 nextStage = stages.length; // default sentinel
+        uint256 newStage = lastUsedStage;
         for (uint256 i = currentStage; i <= lastUsedStage; i++) {
             // Update sold tokens per stage
             if (tokensUsed[i] > 0) {
                 stages[i].sold += tokensUsed[i];
             }
 
-            if (nextStage == stages.length && stages[i].sold < stages[i].tokenCap) {
-                nextStage = i;
-            }
         }
-        // Update currentStage if a valid next stage was found
-        if (nextStage < stages.length && nextStage != currentStage) {
-            currentStage = nextStage;
-            emit StageAdvanced(currentStage); // Optional event
+
+        // Advance stage if the last used stage is fully sold
+        if (
+            stages[lastUsedStage].tokenCap - stages[lastUsedStage].sold <= 1 &&
+            lastUsedStage + 1 < stages.length
+        ) {
+            newStage = lastUsedStage + 1;
+        }
+
+        if (newStage != currentStage) {
+            currentStage = newStage;
+            emit StageAdvanced(currentStage);
         }
 
         // Determine tier
@@ -419,6 +273,7 @@ struct User {
 
         // locked tokens based on TGE
         user.locked += tokenAmount;
+        totalLockedTokens += tokenAmount;
 
         emit Purchased(userAddress, tokenAmount);
 
@@ -486,23 +341,25 @@ struct User {
     function distributeReferralRewards(
         address[] calldata referralTree,      // Level 1 to 10
         uint256[] calldata amounts,         // USD amounts per level (18 decimals)
-        address tokenAddress                  // ERC20 token or address(0) for BNB
-    ) external payable onlyOwner whenNotPaused {
+        address tokenAddress,                  // ERC20 token or address(0) for BNB
+        uint256[] calldata designations         // designation levels passed from backend
+    ) external payable onlyAdminOrOperator whenNotPaused {
         require(referralTree.length == amounts.length, "Mismatched input lengths");
         require(referralTree.length <= designatedLevels.length, "Max 10 levels");
+        require(designations.length == referralTree.length, "Mismatched designations length");
 
         uint256 totalDistributed = 0;
 
         for (uint256 i = 0; i < referralTree.length; i++) {
             address referrer = referralTree[i];
             uint256 reward = amounts[i];
+            uint256 designation = designations[i];
             if (referrer == address(0) || reward == 0) continue;
 
             User memory user = users[referrer];
             if (!user.kycVerified) continue;
 
-            // if (i >= designatedLevels.length) break; // Level overflow protection
-
+            user.designationLevel = designation;
             if (reward > 0) {
                 if (tokenAddress == address(0)) {
                     // Native BNB transfer
@@ -516,7 +373,7 @@ struct User {
                 }
 
                 totalDistributed += reward;
-                emit ReferralRewardDistributed(referrer, i + 1, reward, tokenAddress);
+                emit ReferralRewardDistributed(referrer, i + 1, reward, tokenAddress, designation);
             }
         }
 
@@ -526,6 +383,7 @@ struct User {
     function setVestingInterval(uint256 newInterval) external onlyOwner {
         // require(newInterval >= 1 days, "Interval must be at least 1 day");
         vestingInterval = newInterval;
+        emit VestingIntervalUpdated(newInterval, block.timestamp);
     }
 
     function batchVerifyKYC(address[] calldata usersToVerify) external onlyAdminOrOperator {
@@ -546,27 +404,75 @@ struct User {
         _grantWelcomeAndReferralBonus(user);
     }
 
-    function withdrawToken(address tokenAddress, uint256 amount) external onlyOwner {
+    function withdrawToken(address tokenAddress, uint256 amount) external onlyOwner nonReentrant {
         require(tokenAddress != address(0), "Invalid token address");
+        require(amount > 0, "Amount = 0");
+        if (tokenAddress == cryptoAMMToken) {
+            uint256 balance = IERC20(tokenAddress).balanceOf(address(this));
+            require(balance - amount >= totalLockedTokens, "Amount exceeds unlocked tokens");
+        }
         _transferAsset(msg.sender, amount, tokenAddress);
     }
 
-    function withdrawBNB(uint256 amount) external onlyOwner {
+    function withdrawBNB(uint256 amount) external onlyOwner nonReentrant {
         _transferAsset(msg.sender, amount, address(0));
     }
 
 
     function setClaimEnabled(bool _status) external onlyOwner {
+        require(_status != isClaimEnabled, "Already in this claim state");
+
         isClaimEnabled = _status;
+
+        if (_status) {
+            claimEnabledTime = block.timestamp;
+        } else {
+            claimDisabledTime = block.timestamp;
+        }
+
+        emit ClaimToggle(_status, block.timestamp);
     }
 
-    // Called by admin (owner)
-    function initializeVestingTiers() private {
-        vestingTiers.push(VestingTier(0, 500 * 1e18, 10, 24 * 30 days));
-        vestingTiers.push(VestingTier(501 * 1e18, 1100 * 1e18, 20, 24 * 30 days));
-        vestingTiers.push(VestingTier(1101 * 1e18, 1800 * 1e18, 30, 24 * 30 days));
-        vestingTiers.push(VestingTier(1801 * 1e18, 2600 * 1e18, 40, 24 * 30 days));
-        vestingTiers.push(VestingTier(2601 * 1e18, type(uint256).max, 50, 24 * 30 days));
+    function _initializeVestingTiers(VestingTier[] memory tiers) internal {
+        require(vestingTiers.length == 0, "Already initialised");
+        require(tiers.length > 0, "No tiers supplied");
+
+        for (uint256 i = 0; i < tiers.length; ++i) {
+            vestingTiers.push(tiers[i]);
+        }
+        emit VestingTiersInitialized(tiers.length, block.timestamp);
+    }
+
+    function updateVestingTier(
+        uint256 index,
+        uint256 minAmountUsd,
+        uint256 maxAmountUsd,
+        uint256 tgeUnlockPercent,
+        uint256 vestingDuration
+    ) external onlyOwner {
+        require(index < vestingTiers.length, "Index out of range");
+
+        // Load the tier we’re editing
+        VestingTier storage tier = vestingTiers[index];
+
+        /* ── Apply “only‑if‑non‑zero” rule ───────────────────────── */
+        uint256 newMin     = (minAmountUsd      == 0) ? tier.minAmountUsd      : minAmountUsd;
+        uint256 newMax     = (maxAmountUsd      == 0) ? tier.maxAmountUsd      : maxAmountUsd;
+        uint256 newPercent = (tgeUnlockPercent  == 0) ? tier.tgeUnlockPercent  : tgeUnlockPercent;
+        uint256 newDur     = (vestingDuration   == 0) ? tier.vestingDuration   : vestingDuration;
+        /* ────────────────────────────────────────────────────────── */
+
+        /* ── Sanity checks after substitution ───────────────────── */
+        require(newPercent <= 100,         "Unlock % > 100");
+        require(newMax >= newMin,          "max < min");
+        require(newDur >= 1 hours, "Duration < 1 hr");
+        /* ────────────────────────────────────────────────────────── */
+
+        /* ── Commit to storage ───────────────────────────────────── */
+        tier.minAmountUsd     = newMin;
+        tier.maxAmountUsd     = newMax;
+        tier.tgeUnlockPercent = newPercent;
+        tier.vestingDuration  = newDur;
     }
 
     function updateStage(
@@ -647,6 +553,12 @@ struct User {
             uint256 usdToUse = remainingUsd > maxUsdThisStage ? maxUsdThisStage : remainingUsd;
             uint256 tokensToBuy = (usdToUse * 1e18) / pricePerToken;
 
+            // Clamp to avoid exceeding available tokens due to rounding
+            if (tokensToBuy > availableTokens) {
+                tokensToBuy = availableTokens;
+                usdToUse = (tokensToBuy * pricePerToken) / 1e18;
+            }
+
             totalTokens += tokensToBuy;
             tokensUsed[i] = tokensToBuy;
 
@@ -705,12 +617,15 @@ struct User {
 
             if (block.timestamp > lastClaim) {
                 uint256 elapsed = block.timestamp - lastClaim;
+                if (elapsed > tier.vestingDuration) {
+                    elapsed = tier.vestingDuration;
+                }
+
                 uint256 totalUnlockedFromVesting = (vestedTotal * elapsed) / tier.vestingDuration;
 
                 // Cap unlock to remaining locked
-                uint256 remaining = user.locked - user.totalClaimedVested;
-                uint256 claimableVested = totalUnlockedFromVesting > remaining
-                    ? remaining
+                uint256 claimableVested = totalUnlockedFromVesting > user.locked
+                    ? user.locked
                     : totalUnlockedFromVesting;
 
                 claimable += claimableVested;
@@ -766,5 +681,7 @@ struct User {
     }
 
     receive() external payable {}
+
+    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
 }
